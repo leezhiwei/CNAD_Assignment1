@@ -65,6 +65,9 @@ $('#register-submit').click(
         //the url where you want to sent the userName and password to
         dataType: 'json',
         async: true,
+        xhrFields: {
+      withCredentials: true
+   },
         //json object to sent to the authentication url
         data: JSON.stringify(getFormData($('#register-form'))),
         success: function (data) {
@@ -90,6 +93,9 @@ $(document).on('click', '#verify-submit' , function() {
        	type: "POST",
         //the url where you want to sent the userName and password to
         async: true,
+        xhrFields: {
+      withCredentials: true
+   },
         //json object to sent to the authentication url
         data: JSON.stringify(data),
         success: function (data) {
