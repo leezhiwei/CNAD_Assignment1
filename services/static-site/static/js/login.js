@@ -74,6 +74,18 @@ $('#register-submit').click(
         console.log("Success");
         replaceQR(data);
         },
+        error: function(data){
+        	console.log("Register Error")
+        	let html = `
+        	<p style="color:red;" id="error">${data.responseText}, please try again.</p>
+        	`;
+        	if ($('#register-form').length == 0){
+        		$('#register-form').prepend(html);  
+        	}
+        	else {
+        		$('#error').val(data.responseText)
+        	}
+        },
     })
 	})
 
