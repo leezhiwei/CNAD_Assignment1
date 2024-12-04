@@ -102,6 +102,7 @@
                             <li><a href="./index.html#services" class="scroll-to">Services</a></li>
                             <li><a href="./index.html#vehicles" class="scroll-to">Vehicle Models</a></li>
                             <li><a href="./index.html#locations" class="scroll-to">Locations</a></li>
+                            <li><a href="./index.html#contact" class="scroll-to">Contact</a></li>
                             <li><a href="/login.html" id="loginbutton">Login</a></li>
                             <li><a href="/view.html" id="viewuser">View User</a></li>
                         </ul>
@@ -115,66 +116,43 @@
 
 </header>
 <!-- Header end -->
-<div class="container" id="login">
-    <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-login">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <a href="#" class="active" id="login-form-link">Login</a>
-                            </div>
-                            <div class="col-xs-6">
-                                <a href="#" id="register-form-link">Register</a>
-                            </div>
-                        </div>
-                        <hr>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <form id="login-form" method="post" role="form" style="display: block;">
-                                    <div class="form-group">
-                                        <input type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Email" value="">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-sm-offset-3">
-                                                <input type="button" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                <form id="register-form" role="form" style="display: none;">
-                                    <div class="form-group">
-                                        <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" name="phone" id="phone" tabindex="1" class="form-control" placeholder="Telephone Number" value="">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-sm-offset-3">
-                                                <input type="button" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container" id="view">
+    <b>View or update user data.</b>
+    <form id="userForm">
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" name="phone" required>
+  </div>
+
+
+  <div class="form-group">
+    <label for="membership_tier_id">Membership Tier:</label>
+    <input id="membership_tier" name="membership_tier" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="membership_point">Membership Point:</label>
+    <input id="membership_point" name="membership_point" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="created_at">Created At:</label>
+    <input id="created_at" name="created_at" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="updated_at">Updated At:</label>
+    <input id="updated_at" name="updated_at" readonly>
+  </div>
+
+
+  <button type="button" id="updatebutton">Update</button>
+</form>
 </div>
 <a href="#" class="scrollup">ScrollUp</a>
 
@@ -205,12 +183,11 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery-1.11.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-
 <script src="js/js.cookie.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/custom.js"></script>
 <script src="js/init.js"></script>
-<script src="js/login.js"></script>
+<script src="js/view.js"></script>
 
 
 
