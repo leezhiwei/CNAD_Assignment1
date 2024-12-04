@@ -126,6 +126,10 @@ func SendVerificationEmail(toEmail string, verificationLink string) error {
 
 // registerUser handles user registration.
 func registerUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost") // Replace with your actual client origin
+    w.Header().Set("Access-Control-Allow-Credentials", "true")
+    w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	// Database connection
 	db, err := sql.Open("mysql", "aime:aime@tcp(127.0.0.1:3306)/Assignment")
 	if err != nil {
@@ -223,6 +227,10 @@ func hashPassword(password string) (string, error) {
 
 // verifyUser handles email verification.
 func verifyUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost") // Replace with your actual client origin
+    w.Header().Set("Access-Control-Allow-Credentials", "true")
+    w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	// Database connection
 	db, err := sql.Open("mysql", "aime:aime@tcp(127.0.0.1:3306)/Assignment")
 	if err != nil {
