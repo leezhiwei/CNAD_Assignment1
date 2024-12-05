@@ -358,6 +358,7 @@ $( "#contact-form" ).submit(function() {
 $( "#car-select-form" ).submit(function() {
 
   var selectedCar = $("#car-select").find(":selected").text();
+  var selectedCarid = $("#car-select").find(":selected").attr("carid");
   var selectedCarVal = $("#car-select").find(":selected").val();
   var selectedCarImage = $("#car-select").val();
   var pickupLocation = $("#pick-up-location").val();
@@ -379,7 +380,8 @@ $( "#car-select-form" ).submit(function() {
 
     $("#selected-car-ph").html(selectedCar);
     $("#selected-car").val(selectedCar);
-    $("#selected-vehicle-image").attr('src', selectedCarImage);
+    $("#carid").val(selectedCarid);
+    $("#selected-vehicle-image").attr('src', 'data:image/png;base64,' + selectedCarImage);
 
     $("#pickup-location-ph").html(pickupLocation);
     $("#pickup-location").val(pickupLocation);
@@ -397,11 +399,16 @@ $( "#car-select-form" ).submit(function() {
     
     $("#pick-up-date-ph").html(pickUpDate);
     $("#pick-up-time-ph").html(pickUpTime);
-    $("#pick-up").val(pickUpDate+' at '+pickUpTime);
+    let datestringpickup = pickUpDate+' '+pickUpTime;
+    let datepick = new Date(datestringpickup)
+    console.log(datestringpickup)
+    $("#pick-up").val(datepick.toISOString());
 
     $("#drop-off-date-ph").html(dropOffDate);
     $("#drop-off-time-ph").html(dropOffTime);
-    $("#drop-off").val(dropOffDate+' at '+dropOffTime);
+    let datestringdropoff = dropOffDate+' '+dropOffTime;
+    let datedrop = new Date(datestringdropoff)
+    $("#drop-off").val(datedrop.toISOString());
 
     $('#checkoutModal').modal();
   }

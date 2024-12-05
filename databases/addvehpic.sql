@@ -1,4 +1,4 @@
 -- Add Vehicle Picture in PNG
 USE Assignment;
 
-ALTER TABLE Vehicles ADD VehiclePicture BLOB NOT NULL;
+ALTER TABLE Vehicles ADD VehiclePicture MEDIUMBLOB NOT NULL;

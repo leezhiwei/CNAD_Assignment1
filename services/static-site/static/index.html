@@ -166,33 +166,9 @@
                         <div class="styled-select-car">
                             <select name="car-select" id="car-select">
                                 <option value="">Select your car type</option>
-                                <option value="img/vehicle1.jpg">VW Golf VII</option>
-                                <option value="img/vehicle2.jpg">Audi A1 S-LINE</option>
-                                <option value="img/vehicle3.jpg">Toyota Camry</option>
-                                <option value="img/vehicle4.jpg">BMW 320 ModernLine</option>
-                                <option value="img/vehicle5.jpg">Mercedes-Benz GLK</option>
-                                <option value="img/vehicle6.jpg">VW Passat CC</option>
                             </select>
                         </div>
                         <!-- Car select end -->
-
-                        <!-- Pick-up location start -->
-                        <div class="location">
-                            <div class="input-group pick-up">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span> Pick-up</span>
-                                <input type="text" name="pick-up-location" id="pick-up-location" class="form-control autocomplete-location" placeholder="Enter a City or Airport">
-                            </div>
-                            <!-- Pick-up location end -->
-
-                            <a class="different-drop-off" href="#">Need a different drop-off location?</a>
-
-                            <!-- Drop-off location start -->
-                            <div class="input-group drop-off">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span> Drop-off</span>
-                                <input type="text" name="drop-off-location" id="drop-off-location" class="form-control autocomplete-location" placeholder="Enter a City or Airport">
-                            </div>
-                        </div>
-                        <!-- Drop-off location end -->
 
                         <!-- Pick-up date/time start -->
                         <div class="datetime pick-up">
@@ -437,7 +413,7 @@
 
 <!-- Vehicles start -->
 <section id="vehicles" class="container">
-    <div class="row">
+    <div class="row" id="vehicledata">
         <div class="col-md-12">
             <h2 class="title wow fadeInDown" data-wow-offset="200">Vehicle Models - <span class="subtitle">Our rental fleet at a glance</span></h2>
         </div>
@@ -445,31 +421,7 @@
         <!-- Vehicle nav start -->
         <div class="col-md-3 vehicle-nav-row wow fadeInUp" data-wow-offset="100">
             <div id="vehicle-nav-container">
-                <ul class="vehicle-nav">
-                    <li class="active"><a href="#vehicle-1">VW Golf VII</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-2">Audi A1 S-LINE</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-3">Toyota Camry</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-4">BMW 320 ModernLine</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-5">Mercedes-Benz GLK</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-6">VW Passat CC</a><span class="active">&nbsp;</span></li>
-
-                    <li><a href="#vehicle-7">Audi A1 S-LINE</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-8">Toyota Camry</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-9">BMW 320 ModernLine</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-10">Mercedes-Benz GLK</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-11">VW Passat CC</a><span class="active">&nbsp;</span></li>
-
-                    <li><a href="#vehicle-7">Audi A1 S-LINE 12</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-8">Toyota Camry 13</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-9">BMW 320 ModernLine 14</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-10">Mercedes-Benz GLK 15</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-11">VW Passat CC 16</a><span class="active">&nbsp;</span></li>
-
-                    <li><a href="#vehicle-7">Audi A1 S-LINE</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-8">Toyota Camry</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-9">BMW 320 ModernLine</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-10">Mercedes-Benz GLK</a><span class="active">&nbsp;</span></li>
-                    <li><a href="#vehicle-11">VW Passat CC</a><span class="active">&nbsp;</span></li>
+                <ul class="vehicle-nav" id="vehnav">
                 </ul>
             </div>
 
@@ -480,490 +432,6 @@
 
         </div>
         <!-- Vehicle nav end -->
-
-        <!-- Vehicle 1 data start -->
-        <div class="vehicle-data" id="vehicle-1">
-            <div class="col-md-6 wow fadeIn" data-wow-offset="100">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle1.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3 wow fadeInUp" data-wow-offset="200">
-                <div class="vehicle-price">$ 37.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 1 data end -->
-
-        <!-- Vehicle 2 data start -->
-        <div class="vehicle-data" id="vehicle-2">
-            <div class="col-md-6" data-wow-offset="200">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle2.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3" data-wow-offset="200">
-                <div class="vehicle-price">$ 70.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 2 data end -->
-
-        <!-- Vehicle 3 data start -->
-        <div class="vehicle-data" id="vehicle-3">
-            <div class="col-md-6" data-wow-offset="200">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle3.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3" data-wow-offset="200">
-                <div class="vehicle-price">$ 100.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 3 data end -->
-
-        <!-- Vehicle 4 data start -->
-        <div class="vehicle-data" id="vehicle-4">
-            <div class="col-md-6" data-wow-offset="200">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle4.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3" data-wow-offset="200">
-                <div class="vehicle-price">$ 100.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 4 data end -->
-
-        <!-- Vehicle 5 data start -->
-        <div class="vehicle-data" id="vehicle-5">
-            <div class="col-md-6" data-wow-offset="200">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle5.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3" data-wow-offset="200">
-                <div class="vehicle-price">$ 100.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 5 data end -->
-
-        <!-- Vehicle 6 data start -->
-        <div class="vehicle-data" id="vehicle-6">
-            <div class="col-md-6" data-wow-offset="200">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle6.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3" data-wow-offset="200">
-                <div class="vehicle-price">$ 100.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 6 data end -->
-
-        <!-- Vehicle 7 data start -->
-        <div class="vehicle-data" id="vehicle-7">
-            <div class="col-md-6" data-wow-offset="200">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle2.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3" data-wow-offset="200">
-                <div class="vehicle-price">$ 70.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 7 data end -->
-
-        <!-- Vehicle 8 data start -->
-        <div class="vehicle-data" id="vehicle-8">
-            <div class="col-md-6" data-wow-offset="200">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle3.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3" data-wow-offset="200">
-                <div class="vehicle-price">$ 100.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 8 data end -->
-
-        <!-- Vehicle 9 data start -->
-        <div class="vehicle-data" id="vehicle-9">
-            <div class="col-md-6" data-wow-offset="200">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle4.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3" data-wow-offset="200">
-                <div class="vehicle-price">$ 100.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 9 data end -->
-
-        <!-- Vehicle 10 data start -->
-        <div class="vehicle-data" id="vehicle-10">
-            <div class="col-md-6" data-wow-offset="200">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle5.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3" data-wow-offset="200">
-                <div class="vehicle-price">$ 100.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 10 data end -->
-
-        <!-- Vehicle 11 data start -->
-        <div class="vehicle-data" id="vehicle-11">
-            <div class="col-md-6" data-wow-offset="200">
-                <div class="vehicle-img">
-                    <img class="img-responsive" src="img/vehicle6.jpg" alt="Vehicle">
-                </div>
-            </div>
-            <div class="col-md-3" data-wow-offset="200">
-                <div class="vehicle-price">$ 100.40 <span class="info">rent per day</span></div>
-                <table class="table vehicle-features">
-                    <tr>
-                        <td>Model</td>
-                        <td>Limousine</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Seats</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Luggage</td>
-                        <td>2 Suitcases / 2 Bags</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Air conditioning</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Minimum age</td>
-                        <td>25 years</td>
-                    </tr>
-                </table>
-                <a href="#teaser" class="reserve-button scroll-to"><span class="glyphicon glyphicon-calendar"></span> Reserve now</a>
-            </div>
-        </div>
-        <!-- Vehicle 11 data end -->
 
     </div>
 </section>
@@ -1273,183 +741,26 @@
                                 <p class="info-box-description"><span id="drop-off-date-ph"></span> at <span id="drop-off-time-ph"></span></p>
                                 <input type="hidden" name="drop-off" id="drop-off" value="">
                             </div>
-                            <div class="info-box">
-                                <span class="glyphicon glyphicon-map-marker"></span>
-                                <h4 class="info-box-title">Pick-Up Location</h4>
-                                <p class="info-box-description" id="pickup-location-ph"></p>
-                                <input type="hidden" name="pickup-location" id="pickup-location" value="">
-                            </div>
-                            <div class="info-box">
-                                <span class="glyphicon glyphicon-map-marker"></span>
-                                <h4 class="info-box-title">Drop-Off Location</h4>
-                                <p class="info-box-description" id="dropoff-location-ph"></p>
-                                <input type="hidden" name="dropoff-location" id="dropoff-location" value="">
-                            </div>
                         </div>
 
                         <div class="vehicle-info">
                             <h3>CAR: <span id="selected-car-ph"></span></h3> <a href="#vehicles" class="scroll-to">[ Vehicle Models ]</a>
                             <input type="hidden" name="selected-car" id="selected-car" value="">
+                            <input type="hidden" name="carid" id="carid" value="">
                             <div class="clearfix"></div>
                             <div class="vehicle-image">
-                                <img class="img-responsive" id="selected-vehicle-image" src="img/vehicle1.jpg" alt="Vehicle">
+                                <img class="img-responsive" id="selected-vehicle-image" src="" alt="Vehicle">
                             </div>
                         </div>
 
-                        <div class="clearfix"></div>
+                        <div class="clearfix" id="status"></div>
 
                     </div>
                     <!-- Checkout Rental Info end -->
 
                     <hr>
 
-                    <!-- Checkout Personal Info start -->
-                    <div class="checkout-personal-info">
-                        <div class="alert hidden" id="checkout-form-msg">
-                            test
-                        </div>
-                        <h3>PERSONAL INFORMATION</h3>
-                        <div class="form-group left">
-                            <label for="first-name">First Name:</label>
-                            <input type="text" class="form-control" name="first-name" id="first-name" placeholder="Enter your first name">
-                        </div>
-                        <div class="form-group right">
-                            <label for="last-name">Last Name:</label>
-                            <input type="text" class="form-control" name="last-name" id="last-name" placeholder="Enter your last name">
-                        </div>
-                        <div class="form-group left">
-                            <label for="phone-number">Phone Number:</label>
-                            <input type="text" class="form-control" name="phone-number" id="phone-number" placeholder="Enter your phone number">
-                        </div>
-                        <div class="form-group right age">
-                            <label for="age">Age:</label>
-                            <div class="styled-select-age">
-                                <select name="age" id="age">
-                                    <option value="18">18</option>
-                                    <option value="19">19</option>
-                                    <option value="20">20</option>
-                                    <option value="21">21</option>
-                                    <option value="22">22</option>
-                                    <option value="23">23</option>
-                                    <option value="24">24</option>
-                                    <option value="25">25</option>
-                                    <option value="26">26</option>
-                                    <option value="27">27</option>
-                                    <option value="28">28</option>
-                                    <option value="29">29</option>
-                                    <option value="30">30</option>
-                                    <option value="31">31</option>
-                                    <option value="32">32</option>
-                                    <option value="33">33</option>
-                                    <option value="34">34</option>
-                                    <option value="35">35</option>
-                                    <option value="36">36</option>
-                                    <option value="37">37</option>
-                                    <option value="38">38</option>
-                                    <option value="39">39</option>
-                                    <option value="40">40</option>
-                                    <option value="41">41</option>
-                                    <option value="42">42</option>
-                                    <option value="43">43</option>
-                                    <option value="44">44</option>
-                                    <option value="45">45</option>
-                                    <option value="46">46</option>
-                                    <option value="47">47</option>
-                                    <option value="48">48</option>
-                                    <option value="49">49</option>
-                                    <option value="50">50</option>
-                                    <option value="51">51</option>
-                                    <option value="52">52</option>
-                                    <option value="53">53</option>
-                                    <option value="54">54</option>
-                                    <option value="55">55</option>
-                                    <option value="56">56</option>
-                                    <option value="57">57</option>
-                                    <option value="58">58</option>
-                                    <option value="59">59</option>
-                                    <option value="50">50</option>
-                                    <option value="61">61</option>
-                                    <option value="62">62</option>
-                                    <option value="63">63</option>
-                                    <option value="64">64</option>
-                                    <option value="65">65</option>
-                                    <option value="66">66</option>
-                                    <option value="67">67</option>
-                                    <option value="68">68</option>
-                                    <option value="69">69</option>
-                                    <option value="70">70</option>
-                                    <option value="71">71</option>
-                                    <option value="72">72</option>
-                                    <option value="73">73</option>
-                                    <option value="74">74</option>
-                                    <option value="75">75</option>
-                                    <option value="76">76</option>
-                                    <option value="77">77</option>
-                                    <option value="78">78</option>
-                                    <option value="79">79</option>
-                                    <option value="80">80</option>
-                                    <option value="81">81</option>
-                                    <option value="82">82</option>
-                                    <option value="83">83</option>
-                                    <option value="84">84</option>
-                                    <option value="85">85</option>
-                                    <option value="86">86</option>
-                                    <option value="87">87</option>
-                                    <option value="88">88</option>
-                                    <option value="89">89</option>
-                                    <option value="90">90</option>
-                                    <option value="91">91</option>
-                                    <option value="92">92</option>
-                                    <option value="93">93</option>
-                                    <option value="94">94</option>
-                                    <option value="95">95</option>
-                                    <option value="96">96</option>
-                                    <option value="97">97</option>
-                                    <option value="98">98</option>
-                                    <option value="99">99</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group left">
-                            <label for="email-address">Email Address:</label>
-                            <input type="email" class="form-control" name="email-address" id="email-address" placeholder="Enter your email address">
-                        </div>
-                        <div class="form-group right">
-                            <label for="email-address-confirm">Confirm Email Address:</label>
-                            <input type="email" class="form-control" name="email-address-confirm" id="email-address-confirm" placeholder="Confirm your email address">
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <!-- Checkout Personal Info end -->
-
-                    <!-- Checkout Address Info start -->
-                    <div class="checkout-address-info">
-                        <div class="form-group address">
-                            <label for="address">Address</label>
-                            <input type="text" class="form-control" name="address" id="address" placeholder="Enter your Street an No.">
-                        </div>
-                        <div class="form-group city">
-                            <label for="city">City</label>
-                            <input type="text" class="form-control" name="city" id="city" placeholder="Enter your City">
-                        </div>
-                        <div class="form-group zip-code">
-                            <label for="zip-code">Zip Code</label>
-                            <input type="text" class="form-control" name="zip-code" id="zip-code" placeholder="Enter your Zip Code">
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <!-- Checkout Address Info end -->
-
-                    <div class="newsletter">
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <input id="check1" type="checkbox" name="newsletter" value="yes">
-                                <label for="check1">Please send me latest news and updates</label>
-                            </div>
-                        </div>
-
-                    </div>
+                    
                 </div>
                 <!-- Modal body end -->
 
@@ -1459,7 +770,7 @@
                     <button type="button" class="btn btn-default btn-gray" data-dismiss="modal">Cancel</button>
                   </span>
                   <span class="btn-border btn-yellow">
-                    <button type="submit" class="btn btn-primary btn-yellow">Reserve now</button>
+                    <button type="button" class="btn btn-primary btn-yellow" id="reservebutt">Reserve now</button>
                   </span>
                 </div>
                 <!-- Modal footer end -->
@@ -1483,6 +794,8 @@
 <script src="js/bootstrap-datepicker.js"></script>
 <script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=en"></script>
 <script src="js/gmap3.min.js"></script>
+<script src="js/init.js"></script>
+<script src="js/index.js"></script>
 
 
 <!--[if !(gte IE 8)]><!-->
@@ -1495,8 +808,7 @@
 <!--<![endif]-->
 
 <script src="js/custom.js"></script>
-<script src="js/init.js"></script>
-<script src="js/index.js"></script>
+
 
 
 </body>
