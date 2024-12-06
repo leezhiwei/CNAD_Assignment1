@@ -20,19 +20,6 @@ import (
 	"github.com/stripe/stripe-go/v72/customer"
 )
 
-// Structure for user
-type User struct {
-	UserID           int       `json:"user_id"`            // Identity of user
-	Email            string    `json:"email"`              // Email of user
-	Phone            string    `json:"phone"`              // Phone contact of user
-	PasswordHash     string    `json:"-"`                  // Exclude password hash from JSON output for security
-	MembershipTierID int       `json:"membership_tier_id"` // Membership tier of user
-	MembershipPoint  int       `json:"membership_point"`   // Membership points of user
-	CreatedAt        time.Time `json:"created_at"`         // User cre
-	UpdatedAt        time.Time `json:"updated_at"`
-	IsVerified       bool      `json:"is_verified"` // for user
-}
-
 // Structure for stripe process payment
 type EmailInput struct {
 	Email string `json:"email"`
@@ -40,35 +27,6 @@ type EmailInput struct {
 
 type SessionOutput struct {
 	Id string `json:"id"`
-}
-
-// Structure for billing
-type Billing struct {
-	BillingID     int       `json:"billing_id"`
-	UserID        int       `json:"user_id"`
-	ReservationID int       `json:"reservation_id"`
-	Amount        float64   `json:"amount"`
-	Status        string    `json:"status"` // could be "Pending", "Paid", or "Refunded"
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-}
-
-// Structure for payments
-type Payment struct {
-	PaymentID     int       `json:"payment_id"`
-	BillingID     int       `json:"billing_id"`
-	PaymentMethod string    `json:"payment_method"` // could be "Credit Card", "Debit Card", "PayPal", or "Other"
-	Amount        float64   `json:"amount"`
-	PaymentDate   time.Time `json:"payment_date"`
-}
-
-// Structure for membership tiers
-type MembershipTier struct {
-	MembershipTierID int     `json:"membership_tier_id"`
-	TierName         string  `json:"tier_name"`
-	Benefits         string  `json:"benefits"`
-	HourlyRate       float64 `json:"hourly_rate"`
-	BookingLimit     int     `json:"booking_limit"`
 }
 
 // Structure for promotions
@@ -101,10 +59,7 @@ func handleMethod(w http.ResponseWriter, r *http.Request, dbUser, dbPassword, db
 	// Handle different methods
 	switch r.Method {
 	case "GET":
-		//tierChecker(w, r, dbUser, dbPassword, dbHost, dbName)
 		billCaculation(w, r, dbUser, dbPassword, dbHost, dbName)
-	case "POST":
-		processPayment(w, r, dbUser, dbPassword, dbHost, dbName)
 	case "PUT":
 		// tierUpgrade(w, r, dbUser, dbPassword, dbHost, dbName)
 	default:
@@ -129,72 +84,6 @@ VIP tier: Access to all vehicles with booking time of 120hrs and discount rate o
 func errorStatus(w http.ResponseWriter, err error, message string, statusCode int) {
 	log.Println(message, err)
 	http.Error(w, message, statusCode)
-}
-
-func tierChecker(w http.ResponseWriter, r *http.Request, dbUser, dbPassword, dbHost, dbName string) {
-	// Build Data Source Name for secure database connection
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", dbUser, dbPassword, dbHost, dbName)
-	// Database connection to MySQL
-	db, err := sql.Open("mysql", dsn)
-	if err != nil {
-		// Call errorStatus function to handle error
-		errorStatus(w, err, "Database connection error: ", http.StatusInternalServerError)
-		return
-	}
-	// Close database connection when function completes
-	defer db.Close()
-
-	// Extract the URL parameters from request r
-	var params = mux.Vars(r)
-	// Retrieves the membership id from the parameters /payment/{membershipId}
-	var membershipId = params["memberShipId"]
-	// Execute the query using a prepared statement
-	query := "SELECT * FROM membershiptiers WHERE MembershipTierID = ?"
-	results, err := db.Query(query, membershipId)
-	// Check if the member could be found in the database
-	if err != nil {
-		fmt.Println("Member not found")
-		return
-	}
-	// Close results object from db.Query when function completes
-	defer results.Close()
-
-	// Create a map based on course detail struct
-	tierList := make(map[int]MembershipTier)
-	// Iterate database rows from result query
-	for results.Next() {
-		// Declare struct for holding data values
-		var m MembershipTier
-		// Add data into couse detail struct
-		if err := results.Scan(&m.MembershipTierID, &m.TierName, &m.Benefits, &m.HourlyRate, &m.BookingLimit); err != nil {
-			log.Println("Row scan error:", err)
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
-			return
-		}
-		// Add structs with data into courses map
-		tierList[m.MembershipTierID] = m
-		// fmt.Println(c.Id)
-		// fmt.Println(c.Name)
-		// fmt.Println(c.PlannedIntake)
-		// fmt.Println(c.MinGpa)
-		// fmt.Println(c.MaxGpa)
-	}
-
-	// Secure HTTP headers
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("X-Content-Type-Options", "nosniff")
-	w.Header().Set("X-Frame-Options", "DENY")
-	w.Header().Set("X-XSS-Protection", "1; mode=block")
-
-	// Encode the response and handle errors
-	if err := json.NewEncoder(w).Encode(tierList); err != nil {
-		log.Println("JSON encoding error:", err)
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
-	}
-}
-
-func tierUpgrade(w http.ResponseWriter, r *http.Request, dbUser, dbPassword, dbHost, dbName string) {
-	return
 }
 
 // Bill caculation function
@@ -408,16 +297,7 @@ func CheckoutCreator(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// Stripe API configuration
-
-func processPayment(w http.ResponseWriter, r *http.Request, dbUser, dbPassword, dbHost, dbName string) {
-	return
-}
-
-func processRefund() {
-	return
-}
-
+// Display invoice and receipt
 func displayInvoiceAndReceipt(w http.ResponseWriter, paymentDetails map[int]BillCaculation) {
 	// Encode the response and handle errors
 	if err := json.NewEncoder(w).Encode(paymentDetails); err != nil {
@@ -454,6 +334,6 @@ func main() {
 	router.HandleFunc("/checkout", CORSCheck(CheckoutCreator))
 
 	// Listen at port 5000
-	fmt.Println("Listening at port 8082")
+		fmt.Println("Listening at port 8082")
 	log.Fatal(http.ListenAndServe(":8082", router))
 }
