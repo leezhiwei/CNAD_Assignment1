@@ -173,6 +173,22 @@
 
 <div class="container" id="updateres"></div>
 
+<form id="checkoutForm">
+    <div class="form-control">
+        <label for="reservationid">Reservation ID:</label>
+        <input type="text" id="reservationid" name="reservationid" required>
+    </div>
+    <div class="form-control">
+        <label for="email">Email:</label>
+        <input type="email" id="paymentemail" name="email" required readonly>
+    </div>
+    <div class="form-control">
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required readonly>
+    </div>
+    <button type="button" id="checkoutbut" class="btn btn-secondary">Confirm Payment</button>
+</form>
+
 </div>
 <a href="#" class="scrollup">ScrollUp</a>
 
@@ -203,6 +219,7 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery-1.11.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://js.stripe.com/v3/"></script>
 <script src="js/js.cookie.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/custom.js"></script>

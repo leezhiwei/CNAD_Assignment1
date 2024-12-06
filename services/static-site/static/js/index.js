@@ -50,7 +50,7 @@ function vehfleet(data){
                     </tr>
                     <tr>
                         <td>Cleanliness</td>
-                        <td>${car.cleanliness}}</td>
+                        <td>${car.cleanliness}</td>
                     </tr>
                     <tr>
                         <td>Year</td>

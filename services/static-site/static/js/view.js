@@ -3,6 +3,8 @@ let updateuser = endpoints.login + "/profile/update"
 let delres = endpoints.vehicles + "/cancel"
 let modres = endpoints.vehicles + "/modify"
 let resarr;
+let userdata;
+let stripe = Stripe("pk_test_51QRxIjCZpoakQ6AVkdIdNGinKkEYiITazAA5TcJGBYb7DNFujofasMMg9TQFj2UgneauHWdRYXH1h6AbH90LntqU00UxapxPtN");
 
 let tiers = {
 	1: "Basic",
@@ -84,6 +86,7 @@ function init(){
    },
         //json object to sent to the authentication url
         success: function (data) {
+        userdata = data.user
         console.log("Success");
         console.log(data);
         populate($('#userForm'), data.user)
@@ -245,3 +248,59 @@ $('#updatebutton').click(function(){
     })
 })
 
+
+$('#checkoutbut').click(function(){
+    let formdata = getFormData($('#checkoutForm'))
+    // logic here
+    if (formdata.reservationid == ''){
+        console.log("Payment Error")
+            let html = `
+            <p style="color:red;" id="error">Reservation ID is blank, please try again.</p>
+            `;
+            if ($('#error').length == 0){
+                $('#checkoutForm').prepend(html);  
+            }
+            else {
+                $('#error').val("Reservation ID is blank, please try again.")
+            }
+    }
+    let reservation = resarr.find(res => res.reservation_id === parseInt(formdata.reservationid));
+    if (reservation === undefined){
+            console.log("Payment Error")
+                let html = `
+                <p style="color:red;" id="error">Reservation ID is invalid, please try again.</p>
+                `;
+                if ($('#error').length == 0){
+                    $('#checkoutForm').prepend(html);
+                    return  
+                }
+                else {
+                    $('#error').val("Reservation ID is invalid, please try again.")
+                    return
+                }   
+    }
+                $('#paymentemail').val(userdata.email)
+                let startDateobj = new Date(reservation.start_time)
+                let endDateobj = new Date(reservation.end_time)
+                let millisec = endDateobj.getTime()-startDateobj.getTime()
+                let hours = Math.floor(millisec/(60*60*1000))
+                $('#price').val(hours * 40)
+                $('#checkoutbut').click(function(){
+            const value = {
+                email: userdata.email
+            };
+            console.log(value);
+            fetch("http://localhost:8082/checkout", {
+                method: 'POST',
+                body: JSON.stringify(value)
+            }).then(
+                async response => {
+                    const res = await response.json(); 
+                    console.log(res);
+                    const id = res.id;
+                    console.log(id);
+                    stripe.redirectToCheckout({sessionId: id});
+                }
+            );
+                });
+        })
