@@ -180,23 +180,23 @@ $('#reservebutt').click(function(){ // jquery
         xhrFields: {
         withCredentials: true // Essential for cross-site requests
     },
-        success: function (data) {
-        console.log("Success");
+        success: function (data) { // if success with reserve
+        console.log("Success"); // append html
         let html = `
         	<p style="color:green;" id="success">Update Success, redirecting to home page.</p>
         	`;
-        	if ($('#success').length == 0){
-        		$('#status').prepend(html);  
+        	if ($('#success').length == 0){ // if no exist
+        		$('#status').prepend(html);  // append
         	}
-        	else {
+        	else { // else update.
         		$('#success').val(data.responseText)
         	}
         	// Your delay in milliseconds
 			var delay = 2000; 
-			setTimeout(function(){ window.location = "../"; }, delay);
+			setTimeout(function(){ window.location = "../"; }, delay); // send back to home
         },
-        error: function(data){
-        	console.log("Update Error")
+        error: function(data){ // if error
+        	console.log("Update Error") // tell them to try again, append html
         	let html = `
         	<p style="color:red;" id="error">${data.responseText}, please try again.</p>
         	`;

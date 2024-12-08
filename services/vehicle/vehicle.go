@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	"time"
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql" // import lib
 	"github.com/gorilla/mux"
 	"encoding/base64"
 	"github.com/rs/cors"
@@ -20,8 +20,8 @@ type Vehicle struct {
 	Make        string    `json:"make"`
 	Model       string    `json:"model"`
 	Year        int       `json:"year"`
-	Status      string    `json:"status"`
-	ChargeLevel int       `json:"charge_level"`
+	Status      string    `json:"status"` 
+	ChargeLevel int       `json:"charge_level"` //declare struct
 	Cleanliness string    `json:"cleanliness"`
 	CreatedTime time.Time `json:"created_time"`
 	UpdatedTime time.Time `json:"updated_time"`
@@ -45,23 +45,25 @@ func getAvailableVehicles(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
     w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	var vehicles []Vehicle
-	rows, err := db.Query("SELECT * FROM Vehicles WHERE Status = 'Available'")
+	rows, err := db.Query("SELECT * FROM Vehicles WHERE Status = 'Available'") // run sql query
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError) // if error, error
 		return
 	}
 	defer rows.Close()
 
 	for rows.Next() {
 		var cTime string
-		var uTime string
+		var uTime string // declare vars
 		var err1 error
 		var err2 error
 		var vehicle Vehicle
+		//insert data
 		if err := rows.Scan(&vehicle.VehicleID, &vehicle.Make, &vehicle.Model, &vehicle.Year, &vehicle.Status, &vehicle.ChargeLevel, &vehicle.Cleanliness, &cTime, &uTime, &vehicle.Location, &vehicle.VehiclePicture); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		// parse time
 		vehicle.UpdatedTime, err1 = time.Parse(time.DateTime, uTime)
 		if err1 != nil {
 			http.Error(w, err1.Error(), http.StatusInternalServerError)
@@ -72,12 +74,12 @@ func getAvailableVehicles(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err2.Error(), http.StatusInternalServerError)
 			return
 		}
-		vehicle.VehiclePicB64 = base64.StdEncoding.EncodeToString(vehicle.VehiclePicture)
-		vehicles = append(vehicles, vehicle)
+		vehicle.VehiclePicB64 = base64.StdEncoding.EncodeToString(vehicle.VehiclePicture)// get b64 image
+		vehicles = append(vehicles, vehicle) // add to list
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(vehicles)
+	w.Header().Set("Content-Type", "application/json") 
+	json.NewEncoder(w).Encode(vehicles) // send to client
 }
 
 // GetAvailableVehicles retrieves available vehicles
@@ -89,21 +91,23 @@ func getAllVehicles(w http.ResponseWriter, r *http.Request) {
 	var vehicles []Vehicle
 	rows, err := db.Query("SELECT * FROM Vehicles")
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError) // sql query, if error.
 		return
 	}
 	defer rows.Close()
 
 	for rows.Next() {
 		var cTime string
-		var uTime string
+		var uTime string // declare vars.
 		var err1 error
 		var err2 error
 		var vehicle Vehicle
+		// get data
 		if err := rows.Scan(&vehicle.VehicleID, &vehicle.Make, &vehicle.Model, &vehicle.Year, &vehicle.Status, &vehicle.ChargeLevel, &vehicle.Cleanliness, &cTime, &uTime, &vehicle.Location, &vehicle.VehiclePicture); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		// set data
 		vehicle.UpdatedTime, err1 = time.Parse(time.DateTime, uTime)
 		if err1 != nil {
 			http.Error(w, err1.Error(), http.StatusInternalServerError)
@@ -114,12 +118,12 @@ func getAllVehicles(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err2.Error(), http.StatusInternalServerError)
 			return
 		}
-		vehicle.VehiclePicB64 = base64.StdEncoding.EncodeToString(vehicle.VehiclePicture)
-		vehicles = append(vehicles, vehicle)
+		vehicle.VehiclePicB64 = base64.StdEncoding.EncodeToString(vehicle.VehiclePicture) // pic into b64
+		vehicles = append(vehicles, vehicle) // append to list
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(vehicles)
+	json.NewEncoder(w).Encode(vehicles) // send data
 }
 
 // ReserveVehicle handles vehicle reservations
@@ -128,14 +132,15 @@ func reserveVehicle(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Credentials", "true")
     w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
     w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+    // set variable
 	var reservation Reservation
 	if err := json.NewDecoder(r.Body).Decode(&reservation); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest) // get from client, if err
 		return
 	}
 
 	// Check if the vehicle is available
-	var count int
+	var count int /
 	err := db.QueryRow(`
 		SELECT COUNT(*) 
 		FROM Reservations 
@@ -144,11 +149,11 @@ func reserveVehicle(w http.ResponseWriter, r *http.Request) {
 		reservation.VehicleID, reservation.EndTime, reservation.StartTime, reservation.StartTime, reservation.EndTime).Scan(&count)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError) // if error, error
 		return
 	}
 
-	if count > 0 {
+	if count > 0 { // if not avail, err
 		http.Error(w, "Vehicle is not available for the selected time range. Please enter a different time slot. Thank You!", http.StatusConflict)
 		return
 	}
@@ -157,27 +162,28 @@ func reserveVehicle(w http.ResponseWriter, r *http.Request) {
 	result, err := db.Exec("INSERT INTO Reservations (UserID, VehicleID, StartTime, EndTime, Status) VALUES (?, ?, ?, ?, 'Pending')",
 		reservation.UserID, reservation.VehicleID, reservation.StartTime, reservation.EndTime)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError) // error out
 		return
 	}
 
 	// Retrieve the last inserted reservation ID
-	reservationID, err := result.LastInsertId()
+	reservationID, err := result.LastInsertId() // get reservation id
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError) // if error, error
 		return
 	}
 
 	// Update the vehicle status to 'Reserved'
 	_, err = db.Exec("UPDATE Vehicles SET Status = 'Reserved' WHERE VehicleID = ?", reservation.VehicleID)
+	// set reserved
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError) // if error.
 		return
 	}
-
-	w.WriteHeader(http.StatusCreated)
+ 
+	w.WriteHeader(http.StatusCreated) // else created
 	json.NewEncoder(w).Encode(map[string]interface{}{
-		"message":        "Vehicle reserved successfully",
+		"message":        "Vehicle reserved successfully", // send back data
 		"reservation_id": reservationID,
 	})
 }
