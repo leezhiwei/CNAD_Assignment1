@@ -9,12 +9,10 @@ import (
 	"database/sql"
 	"encoding/base64"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"image/png"
 	"log"
 	"net/http"
-	"net/smtp"
 	"time"
 	"strconv"
 	"golang.org/x/crypto/bcrypt"
@@ -43,33 +41,6 @@ type User struct {
 	TOTPRandomSecret string    `json:"-"`
 }
 
-// code from stackoverflow https://stackoverflow.com/questions/42305763/connecting-to-exchange-with-golang. for login authentication
-type loginAuth struct {
-	username, password string
-}
-
-// LoginAuth is used for smtp login auth
-func LoginAuth(username, password string) smtp.Auth {
-	return &loginAuth{username, password}
-}
-
-func (a *loginAuth) Start(server *smtp.ServerInfo) (string, []byte, error) {
-	return "LOGIN", []byte(a.username), nil
-}
-
-func (a *loginAuth) Next(fromServer []byte, more bool) ([]byte, error) {
-	if more {
-		switch string(fromServer) {
-		case "Username:":
-			return []byte(a.username), nil
-		case "Password:":
-			return []byte(a.password), nil
-		default:
-			return nil, errors.New("Unknown from server")
-		}
-	}
-	return nil, nil
-}
 
 // generateTOTPWithSecret generates a TOTP using a provided secret, displays it, and generates a QR code.
 func generateTOTPWithSecret(email string) *otp.Key {
@@ -99,30 +70,6 @@ func verifyTOTPwithsecret(secret string, code string) bool {
 	return rv
 }
 
-// SendVerificationEmail sends a verification email to the given email address.
-// asscnad@gmail.com / Passw@rd123 / twcl zibu rvir lwji
-func SendVerificationEmail(toEmail string, verificationLink string) error {
-	// Set up email server settings
-
-	smtpServer := "smtp.gmail.com"
-	port := "587"
-	fromEmail := "asscnad@gmail.com"
-	password := "twclziburvirlwji"
-
-	auth := LoginAuth(fromEmail, password)
-
-	subject := "Subject: Verify Your Email\n"
-	body := fmt.Sprintf("Please click the following link to verify your email: %s\n", verificationLink)
-	message := subject + "\n" + body
-
-	err := smtp.SendMail(smtpServer+":"+port, auth, fromEmail, []string{toEmail}, []byte(message))
-	if err != nil {
-		log.Printf("Error sending email to %s: %v", toEmail, err)
-		return err
-	}
-	log.Printf("Verification email sent to %s", toEmail)
-	return nil
-}
 
 // registerUser handles user registration.
 func registerUser(w http.ResponseWriter, r *http.Request) {
@@ -196,16 +143,6 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 
 	userID, _ := result.LastInsertId()
 
-	verificationLink := fmt.Sprintf("http://localhost:8080/api/v1/verify?userID=%d", userID)
-
-	// Send verification email
-	err = SendVerificationEmail(reqData.Email, verificationLink)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "Error sending verification email")
-		return
-	}
-
 	// Respond with success
 	w.WriteHeader(http.StatusOK)
 	message := fmt.Sprintf("User registered successfully with ID: %d", userID)
@@ -225,55 +162,6 @@ func hashPassword(password string) (string, error) {
 	return string(hash), nil
 }
 
-// verifyUser handles email verification.
-func verifyUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost") // Replace with your actual client origin
-    w.Header().Set("Access-Control-Allow-Credentials", "true")
-    w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-	// Database connection
-	db, err := sql.Open("mysql", "aime:aime@tcp(127.0.0.1:3306)/Assignment")
-	if err != nil {
-		log.Fatal(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "Database connection error")
-		return
-	}
-	defer db.Close()
-
-	// Parse query parameters
-	userID := r.URL.Query().Get("userID")
-	if userID == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Missing userID in query")
-		return
-	}
-
-	// Update user's verification status
-	query := `
-	UPDATE Users
-	SET IsVerified = 1, UpdatedAt = NOW()
-	WHERE UserID = ? AND IsVerified = 0
-	`
-	result, err := db.Exec(query, userID)
-	if err != nil {
-		log.Fatal(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "Error updating verification status")
-		return
-	}
-
-	rowsAffected, _ := result.RowsAffected()
-	if rowsAffected == 0 {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Invalid or already verified userID")
-		return
-	}
-
-	// Respond with success
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Email successfully verified!")
-}
 
 // loginUser handles user login.
 func loginUser(w http.ResponseWriter, r *http.Request) {
@@ -522,7 +410,6 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/api/v1/register", registerUser).Methods("POST")
 	// Add verification endpoint
-	r.HandleFunc("/api/v1/verify", verifyUser).Methods("GET")
 	r.HandleFunc("/api/v1/login", loginUser).Methods("POST")
 	r.HandleFunc("/api/v1/profile", viewUserProfile).Methods("GET")
 	r.HandleFunc("/api/v1/profile/update", updateUserProfile).Methods("POST")

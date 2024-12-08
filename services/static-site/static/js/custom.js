@@ -221,20 +221,6 @@ function loadMap(addressData){
   $('#locations .map').gmap3(locationData, "autofit" );
 }
 
-loadMap(locations[0]);
-
-
-$("#location-map-select").append('<option value="'+locations[0].value+'">Please select a location</option>');  
-$.each(locations, function( index, value ) {
-  //console.log(index);
-  var option = '<option value="'+index+'">'+value.value+'</option>';
-  $("#location-map-select").append(option);
-});
-
-$('#location-map-select').on('change', function() {
-  $('#locations .map').gmap3('destroy');
-  loadMap(locations[this.value]);
-});
 
 
 
@@ -260,13 +246,6 @@ scrollTo.click( function(event) {
 });
 
 
-
-// setup autocomplete - pulling from locations-autocomplete.js
-//-------------------------------------------------------------------------------
-
-$('.autocomplete-location').autocomplete({
-  lookup: locations
-});
 
 
 

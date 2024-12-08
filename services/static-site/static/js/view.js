@@ -267,6 +267,24 @@ $('#updatebutton').click(function(){
 })
 
 
+function genInvoice(userdata, checkoutdata, tierarr){
+    const { jsPDF } = window.jspdf;
+    var doc = new jsPDF();
+    doc.setFontSize(20);
+    tier = tierarr.find(tier => tier.ID === userdata.membership_tier_id);
+    let text = `
+    Email: ${userdata.email}
+    User ID: ${userdata.user_id}
+    Phone Number: ${userdata.phone}
+    Tier: ${tier.TierName}
+    Points: ${userdata.membership_point}
+    Amount Paid: $${checkoutdata.amount}
+    Paid Using: ${checkoutdata.pmethod}`
+
+    doc.text(20, 10 + (1 * 10), text);
+    doc.save('Invoice.pdf')
+}
+
 $('#checkoutbut').click(function(){
     let formdata = getFormData($('#checkoutForm'))
     // logic here
@@ -318,6 +336,7 @@ $('#checkoutbut').click(function(){
                     data: JSON.stringify(senddata),
                     success: function(data){
                         sessionStorage.setItem('paymentdetails', JSON.stringify(senddata));
+                        genInvoice(userdata, senddata, tierarr)
                         window.location = "../success.html"
                     },
                     error: function(err){
