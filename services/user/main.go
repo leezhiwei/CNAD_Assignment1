@@ -16,7 +16,7 @@ import (
 	"net/http"
 	"net/smtp"
 	"time"
-
+	"strconv"
 	"golang.org/x/crypto/bcrypt"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -457,6 +457,7 @@ func viewUserProfile(w http.ResponseWriter, r *http.Request) {
         WHERE UserID = ?
     `
 	err = db.QueryRow(query, userID).Scan(&user.Email, &user.Phone, &user.MembershipTierID, &user.MembershipPoint, &user.CreatedAt, &user.UpdatedAt)
+	user.UserID, _ = strconv.Atoi(userID)
 	if err != nil {
 		log.Fatal(err)
 		w.WriteHeader(http.StatusInternalServerError)

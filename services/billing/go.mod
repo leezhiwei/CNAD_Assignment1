@@ -1,4 +1,5 @@
 module payment.go
+
 go 1.23.2
 
 require (
@@ -9,5 +10,6 @@ require (
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
+	github.com/rs/cors v1.11.1 // indirect
 	github.com/stripe/stripe-go/v72 v72.122.0 // indirect
 )

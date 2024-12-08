@@ -2,4 +2,6 @@
 *.exe
 */*.bin
 *.bin
+*/.env
+.env
 

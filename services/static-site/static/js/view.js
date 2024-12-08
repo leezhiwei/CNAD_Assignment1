@@ -2,15 +2,12 @@ let viewuser = endpoints.login + "/profile"
 let updateuser = endpoints.login + "/profile/update"
 let delres = endpoints.vehicles + "/cancel"
 let modres = endpoints.vehicles + "/modify"
+let tierend = endpoints.billing + "/gettier"
+let payment = endpoints.billing + "/payment"
 let resarr;
 let userdata;
-let stripe = Stripe("pk_test_51QRxIjCZpoakQ6AVkdIdNGinKkEYiITazAA5TcJGBYb7DNFujofasMMg9TQFj2UgneauHWdRYXH1h6AbH90LntqU00UxapxPtN");
+let tierarr;
 
-let tiers = {
-	1: "Basic",
-	2: "Premium",
-	3: "VIP"
-}
 function getFormData($form){
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
@@ -90,8 +87,9 @@ function init(){
         console.log("Success");
         console.log(data);
         populate($('#userForm'), data.user)
-        console.log(tiers[data.user['membership_tier_id']])
-        $('#membership_tier').val(tiers[data.user['membership_tier_id']])
+        tier = tierarr.find(tier => tier.ID === data.user['membership_tier_id']);
+        console.log(tier.TierName)
+        $('#membership_tier').val(tier.TierName)
         renderReservations(data.rentalHistory)
         resarr = data.rentalHistory;
         $('#canbutton').click(function(){
@@ -204,7 +202,27 @@ function init(){
     })
 }
 
+function gettier(){
+    $.ajax('http://localhost:8082/gettier', {
+        type: "GET",
+        //the url where you want to sent the userName and password to
+        dataType: 'json',
+        async: true,
+        //json object to sent to the authentication url
+        success: function (data) {
+        console.log("Success");
+        tierarr = data;
+        },
+        error: function(err){
+            console.log("Error")
+            console.log(err)
+        }
+    })
+}
+gettier()
 init()
+
+
 
 $('#updatebutton').click(function(){
 	let formdata = getFormData($('#userForm'))
@@ -285,22 +303,27 @@ $('#checkoutbut').click(function(){
                 let millisec = endDateobj.getTime()-startDateobj.getTime()
                 let hours = Math.floor(millisec/(60*60*1000))
                 $('#price').val(hours * 40)
+                $('#memdiscount').val(hours*40*(tier.DiscRate/100))
+                $('#total').val(hours * 40 - (hours*40*(tier.DiscRate/100)))
                 $('#checkoutbut').click(function(){
-            const value = {
-                email: userdata.email
-            };
-            console.log(value);
-            fetch("http://localhost:8082/checkout", {
-                method: 'POST',
-                body: JSON.stringify(value)
-            }).then(
-                async response => {
-                    const res = await response.json(); 
-                    console.log(res);
-                    const id = res.id;
-                    console.log(id);
-                    stripe.redirectToCheckout({sessionId: id});
-                }
-            );
+                    let checkoutdata = getFormData($('#checkoutForm'));
+                    let paymentdata = $('#pmethod').val();
+                    let userid = Cookies.get("user_id");
+                    let senddata = {"userid": userid, "resid": checkoutdata.reservationid, "amount": checkoutdata.total ,"pmethod": paymentdata}
+                    $.ajax(payment, {
+                    type: "POST",
+                    //the url where you want to sent the userName and password to
+                    async: true,
+                    //json object to sent to the authentication url
+                    data: JSON.stringify(senddata),
+                    success: function(data){
+                        sessionStorage.setItem('paymentdetails', JSON.stringify(senddata));
+                        window.location = "../success.html"
+                    },
+                    error: function(err){
+                        console.log("Error");
+                        console.log(err);
+                    }
+                });
                 });
         })

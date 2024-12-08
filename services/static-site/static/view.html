@@ -186,6 +186,27 @@
         <label for="price">Price:</label>
         <input type="number" id="price" name="price" required readonly>
     </div>
+    <div class="form-control">
+        <label for="memdiscount">Member Discount:</label>
+        <input type="number" id="memdiscount" name="memdiscount" required readonly>
+    </div>
+        <div class="form-control">
+        <label for="promocode">Promotion Code:</label>
+        <input type="text" id="promocode" name="promocode" required>
+    </div>
+    <div class="form-control">
+        <label for="total">Total Payable:</label>
+        <input type="number" id="total" name="total" required readonly>
+    </div>
+    <div class="form-control">
+        <label for="pmethod">Payment Method:</label>
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg" name="pmethod" id="pmethod" form="checkoutForm">
+          <option selected value="Credit Card">Credit Card</option>
+          <option value="Debit Card">Debit Card</option>
+          <option value="PayPal">PayPal</option>
+        </select>
+    </div>
+    <button type="button" id="applypromo" class="btn btn-secondary">Apply Promotion</button>
     <button type="button" id="checkoutbut" class="btn btn-secondary">Confirm Payment</button>
 </form>
 
@@ -219,7 +240,7 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery-1.11.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://js.stripe.com/v3/"></script>
+
 <script src="js/js.cookie.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/custom.js"></script>
