@@ -10,6 +10,8 @@ import (
 	"github.com/gorilla/mux"
 	"encoding/base64"
 	"github.com/rs/cors"
+	"github.com/joho/godotenv"
+	"fmt"
 )
 		
 
@@ -120,7 +122,6 @@ func getAllVehicles(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(vehicles)
 }
 
-// curl -X POST http://localhost:8080/reserve -H "Content-Type: application/json" -d "{\"user_id\": 1,\"vehicle_id\": 2,\"start_time\": \"2023-10-01T10:00:00\",\"end_time\": \"2023-10-01T12:00:00\"}"
 // ReserveVehicle handles vehicle reservations
 func reserveVehicle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost") // Replace with your actual client origin
@@ -329,9 +330,18 @@ var db *sql.DB
 
 func main() {
 	var err error
-	// Replace with your own database connection string
-	dsn := "aime:aime@tcp(localhost:3306)/Assignment"
-	db, err = sql.Open("mysql", dsn)
+	var errdb, errenv error
+	var env map[string]string
+	env, errenv = godotenv.Read(".env") // attempt to read env file.
+	if errenv != nil {
+		log.Fatal("Unable to read env file, error: ", errenv) // print err
+	}
+	var connstring = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", env["DB_USERNAME"], env["DB_PASSWORD"], env["DB_HOST"], env["DB_PORT"], env["DATABASE_NAME"])
+	// connection string
+	db, errdb = sql.Open("mysql", connstring) // make sql connection
+	if errdb != nil {                           // if error with db
+		log.Fatal("Unable to connect to database, error: ", errdb) // print err
+	}
 	if err != nil {
 		log.Fatalln(err)
 	}

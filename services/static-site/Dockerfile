@@ -1,4 +1,5 @@
 FROM golang:1.23.4-alpine3.20
+EXPOSE 80
 WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download

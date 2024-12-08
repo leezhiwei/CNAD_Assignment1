@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cnad-deployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: cnad-stack
+  template:
+    metadata:
+      labels:
+        app: cnad-stack
+    spec:
+      containers:
+      - name: cnad-billing
+        image: cnad-billing:latest
+      - name: cnad-static-site
+        image: cnad-static-site:latest
+      - name: cnad-user
+        image: cnad-user:latest
+      - name: cnad-vehicle
+        image: cnad-vehicle:latest

@@ -1,9 +1,5 @@
 package main
 
-//pls go get -u golang.org/x/crypto/bcrypt
-//curl -X POST http://localhost:8080/api/v1/register -d "{\"email\":\"yqyasd@gmail.com\", \"password\":\"password\", \"phone\":\"1234567890\"}"
-//curl -X POST http://localhost:8080/api/v1/register -d "email=yeqiyangasd@gmail.com&password=password123&phone=1234567890
-//curl -X POST http://localhost:8080/api/v1/login -d "{\"email\":\"yqyasd@gmail.com\", \"password\":\"password\", \"totp\": \"{code}\"}"
 import (
 	"bytes"
 	"database/sql"
@@ -22,6 +18,7 @@ import (
 	"github.com/pquerna/otp"
 	"github.com/pquerna/otp/totp"
 	"github.com/beevik/ntp"
+	"github.com/joho/godotenv"
 )
 
 func print(s any) {
@@ -77,15 +74,6 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Credentials", "true")
     w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
     w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-	// Database connection
-	db, err := sql.Open("mysql", "aime:aime@tcp(127.0.0.1:3306)/Assignment")
-	if err != nil {
-		log.Fatal(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "Database connection error")
-		return
-	}
-	defer db.Close()
 
 	// Parse JSON request body
 	var reqData struct {
@@ -93,6 +81,7 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 		Phone    string `json:"phone"`
 		Password string `json:"password"`
 	}
+	var err error;
 
 	err = json.NewDecoder(r.Body).Decode(&reqData)
 	if err != nil {
@@ -170,13 +159,6 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
     w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	// Database connection
-	db, err := sql.Open("mysql", "aime:aime@tcp(127.0.0.1:3306)/Assignment")
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "Database connection error")
-		return
-	}
-	defer db.Close()
 
 	// Parse JSON request body
 	var reqData struct {
@@ -184,6 +166,7 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		Password string `json:"password"`
 		TOTPCode string `json:"totp"`
 	}
+	var err error;
 
 	err = json.NewDecoder(r.Body).Decode(&reqData)
 	if err != nil {
@@ -254,15 +237,6 @@ func updateUserProfile(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Credentials", "true")
     w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
     w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-	// Database connection
-	db, err := sql.Open("mysql", "aime:aime@tcp(127.0.0.1:3306)/Assignment")
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "Database connection error")
-		return
-	}
-	defer db.Close()
-
 	// Retrieve the user's ID from cookies
 	userIDCookie, err := r.Cookie("user_id")
 	if err != nil {
@@ -318,14 +292,6 @@ func viewUserProfile(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Credentials", "true")
     w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
     w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-	// Database connection
-	db, err := sql.Open("mysql", "aime:aime@tcp(127.0.0.1:3306)/Assignment?parseTime=true")
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "Database connection error")
-		return
-	}
-	defer db.Close()
 
 	// Retrieve the user's ID from cookies
 	userIDCookie, err := r.Cookie("user_id")
@@ -398,13 +364,20 @@ func viewUserProfile(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+var db *sql.DB
 func main() {
-	// Database connection setup
-	db, err := sql.Open("mysql", "aime:aime@tcp(127.0.0.1:3306)/Assignment")
-	if err != nil {
-		log.Fatalf("Database connection error: %v", err)
+	var errdb, errenv error
+	var env map[string]string
+	env, errenv = godotenv.Read(".env") // attempt to read env file.
+	if errenv != nil {
+		log.Fatal("Unable to read env file, error: ", errenv) // print err
 	}
-	defer db.Close()
+	var connstring = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", env["DB_USERNAME"], env["DB_PASSWORD"], env["DB_HOST"], env["DB_PORT"], env["DATABASE_NAME"])
+	// connection string
+	db, errdb = sql.Open("mysql", connstring) // make sql connection
+	if errdb != nil {                           // if error with db
+		log.Fatal("Unable to connect to database, error: ", errdb) // print err
+	}
 
 	// Set up HTTP router
 	r := mux.NewRouter()

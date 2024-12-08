@@ -1,10 +1,11 @@
 let allveh = endpoints.vehicles + '/allvehicles'
-let availveh = endpoints.vehicles + '/vehicles'
+let availveh = endpoints.vehicles + '/vehicles' // declare endpoints
 let resveh = endpoints.vehicles + '/reserve'
 let vehall;
-let vehavail;
+let vehavail; // declare var for storage
 
 function getFormData($form){
+    // use jquery to serialise form into JSON
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
 
@@ -16,13 +17,14 @@ function getFormData($form){
 }
 
 function vehfleet(data){
+    // get in all vehicle fleet data
 	let index = 0;
 	let html = ``
 	let html1 = ``
 	vehdata = data
 	data.forEach(function(car){
 		index += 1
-		if (index == 1){
+		if (index == 1){ // first selected car, inject HTML
 			html1 += `
 		<li class="active"><a href="#vehicle-${index}">${car.make} ${car.model}</a><span class="active">&nbsp;</span></li>
 		`;
@@ -61,8 +63,8 @@ function vehfleet(data){
             </div>
         </div>
 	`
-	return;
-		}
+	return; // end fn
+		} // subsequent car, inject HTML (not selected)
 		html1 += `
 		<li><a href="#vehicle-${index}">${car.make} ${car.model}</a><span class="active">&nbsp;</span></li>
 		`;
@@ -90,7 +92,7 @@ function vehfleet(data){
                     </tr>
                     <tr>
                         <td>Cleanliness</td>
-                        <td>${car.cleanliness}}</td>
+                        <td>${car.cleanliness}</td>
                     </tr>
                     <tr>
                         <td>Year</td>
@@ -102,74 +104,70 @@ function vehfleet(data){
         </div>
 	`
 	});
-	$('#vehnav').append(html1);
-	$('#vehicledata').append(html);
+	$('#vehnav').append(html1); // use jquery to add to nav bar
+	$('#vehicledata').append(html); // also add to vehicle data.
 	
 }
 function availablefleet(data){
-	vehavail = data
+	vehavail = data // for all the available fleer
 	let html2 = ``
-	data.forEach(function (car){
+	data.forEach(function (car){ // add it to the dropdown menu
 		html2 += `<option value="${car.VehiclePicture}" carid="${car.vehicle_id}">${car.make} ${car.model}</option>`
 	})
-	$('#car-select').append(html2)
+	$('#car-select').append(html2) // append HTML
 }
 function init(){
-	if(typeof Cookies.get('user_id') !== 'undefined'){
-		$('#loginbutton').text("Logout");
-		$('#loginbutton').attr("href","./");
-		$('#loginbutton').click(function(){
-			Cookies.remove("user_id", {path: "/", sameSite: "lax"});
-			var delay = 100; 
-			setTimeout(function(){ location.reload() }, delay);
-			return false;
+	if(typeof Cookies.get('user_id') !== 'undefined'){ 
+		$('#loginbutton').text("Logout"); // if user id in cookies, change it to be "Logout"
+		$('#loginbutton').attr("href","./"); // dont direct anywhere
+		$('#loginbutton').click(function(){ // if clicked
+			Cookies.remove("user_id", {path: "/", sameSite: "lax"}); // remove cookie
+			var delay = 100; // 0.1 second delay
+			setTimeout(function(){ location.reload() }, delay); // refresh
+			return false; // dont direct
 	});
 	}
-	else
+	else // if no cookie
 	{
-		$('#viewuser').hide();
+		$('#viewuser').hide(); // hide viewuser button
 	}
-	$.ajax(allveh, {
+	$.ajax(allveh, { // ajax for all vehicles
         type: "GET",
         //the url where you want to sent the userName and password to
         dataType: 'json',
         async: false,
-    xhrFields: {
-      withCredentials: true
-   },
         //json object to sent to the authentication url
-        success: function (data) {
+        success: function (data) { // if ajax is okay
         	console.log("Success");
-        	vehfleet(data)
+        	vehfleet(data) // run above fn to populate html
         },
-        error: function (data) {
-        	console.log("Error");
-        	console.log(data)
+        error: function (data) { // if error
+        	console.log("Error"); // print error in console
+            alert("Error with retrieving data, please refresh the page.") // Alert Window
+        	console.log(data) // print out error specifc in console
         },
     });
-    $.ajax(availveh, {
+    $.ajax(availveh, { // ajax for only available vehicle.
         type: "GET",
         //the url where you want to sent the userName and password to
         dataType: 'json',
         async: false,
-    xhrFields: {
-      withCredentials: true
-   },
-        //json object to sent to the authentication url
-        success: function (data) {
+         //json object to sent to the authentication url
+        success: function (data) { // if ajax is okay
         	console.log("Success");
-        	availablefleet(data)
+        	availablefleet(data) // run above fn to populate html
         },
-        error: function (data) {
-        	console.log("Error");
-        	console.log(data)
+        error: function (data) { // if error
+        	console.log("Error"); // print error in console
+            alert("Error with retrieving data, please refresh the page.") // Alert Window
+        	console.log(data) // print out error specifc in console
         },
     })
 }
 
-init()
+init()  // run init functions
 
-$('#reservebutt').click(function(){
+$('#reservebutt').click(function(){ // jquery 
 	let formdata = getFormData($('#checkout-form'))
 	let senddata = {"user_id": parseInt(Cookies.get('user_id')),"vehicle_id": parseInt(formdata['carid']),"start_time": formdata['pick-up'].slice(0,-1),"end_time": formdata['drop-off'].slice(0,-1)}
 	console.log(senddata)

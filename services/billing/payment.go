@@ -140,27 +140,6 @@ func dbupdateres(p Payment) error {
 	return nil // return fn
 }
 
-/*func getcourse(w http.ResponseWriter, r *http.Request) {
-	var params = mux.Vars(r)                    // get params from URL
-	var coursecode = params["coursecode"]       // query map for 'coursecode'
-	var status bool = dbcheckcourse(coursecode) // check db
-	if !status {                                // if cannot find in db
-		w.WriteHeader(http.StatusNotFound)            // set 404 status
-		fmt.Fprintf(w, "404 Not Found, ID not found") // return error
-		return                                        // end fn
-	}
-	var result, _, errdb = dbgetonecourse(coursecode)  // get db
-	var jsonresponse, jsonError = json.Marshal(result) // convert result to json
-	if jsonError != nil || errdb != nil {              // if json error or db err
-		log.Fatal(errdb)
-		w.WriteHeader(http.StatusInternalServerError) // 500 status code
-		fmt.Fprintf(w, "500 Internal Server Error")   // send error
-		return                                        // end function
-	}
-	w.Header().Set("Content-Type", "application/json") // set JSON header
-	w.WriteHeader(http.StatusOK)                       // set 200 okay
-	w.Write(jsonresponse)                              // send JSON respond
-}*/
 
 func getalltier(w http.ResponseWriter, r *http.Request) {
 	var dberr error // declare temp vars
