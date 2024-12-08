@@ -140,7 +140,7 @@ func reserveVehicle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Check if the vehicle is available
-	var count int /
+	var count int 
 	err := db.QueryRow(`
 		SELECT COUNT(*) 
 		FROM Reservations 
@@ -342,7 +342,7 @@ func main() {
 	if errenv != nil {
 		log.Fatal("Unable to read env file, error: ", errenv) // print err
 	}
-	var connstring = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", env["DB_USERNAME"], env["DB_PASSWORD"], env["DB_HOST"], env["DB_PORT"], env["DATABASE_NAME"])
+	var connstring = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", env["DB_USERNAME"], env["DB_PASSWORD"], env["DB_HOST"], env["DB_PORT"], env["DATABASE_NAME"])
 	// connection string
 	db, errdb = sql.Open("mysql", connstring) // make sql connection
 	if errdb != nil {                           // if error with db
