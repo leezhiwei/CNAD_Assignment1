@@ -10,5 +10,5 @@ In an era marked by sustainable transportation and shared economies, electric ca
 - Go
 - Docker 
 - Kubernetes
-## Other Sections
-TBD...
+## Diagram
+![Diagram](./diagram.jpeg)
