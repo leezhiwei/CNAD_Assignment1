@@ -21,3 +21,5 @@ Using the microservice architecture, I have decomposed the projects into each co
 4. Setup the `.env` files per the `example.env` in each of the services folder, in each of the services, fill in Database Credentials for MySQL.
 5. Open up 4 terminals, or use `screen` in Linux to use a single Terminal.
 6. Go into [Services](./services), and run the respective `.go` files.
+## Steps (Kubernetes/Docker)
+TBD
